@@ -1,6 +1,7 @@
 package cinema;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -14,4 +15,7 @@ public class SeatController {
     public SeatLayout getSeatLayout() {
         return seatLayout;
     }
+
+    @PostMapping("/request")
+    public Seat purchaseSeat()
 }

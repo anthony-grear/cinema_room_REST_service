@@ -1,19 +1,26 @@
 package cinema;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SeatLayout {
     int total_rows;
     int total_columns;
-    List<Seat> available_seats= new ArrayList<>();
+    List<Seat> available_seats= Collections.synchronizedList(new ArrayList<>());
 
     public SeatLayout() {
         this.total_rows = 9;
         this.total_columns = 9;
+        int price;
         for (int i = 1; i < 10; i++) {
             for (int j = 1; j < 10; j++) {
-                available_seats.add(new Seat(i, j));
+                if (i <= 4) {
+                    price = 10;
+                } else {
+                    price = 8;
+                }
+                available_seats.add(new Seat(i, j, price));
             }
         }
     }
