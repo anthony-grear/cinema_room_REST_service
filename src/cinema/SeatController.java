@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class SeatController {
@@ -21,7 +23,7 @@ public class SeatController {
     }
 
     @PostMapping("/purchase")
-    public Seat purchaseSeat(@RequestBody SeatInfo seatInfo) {
+    public ResponseEntity<Map<String,Object>> purchaseSeat(@RequestBody SeatInfo seatInfo) {
         int count = 0;
         int row = seatInfo.getRow();
         int column = seatInfo.getColumn();
@@ -33,7 +35,7 @@ public class SeatController {
         for (Seat seat : seatLayout.available_seats) {
             count++;
             if (seat.getRow()==row && seat.getColumn()==column) {
-                if (seat.getAvailable() == false) {
+                if (!seat.getAvailable()) {
                     throw new SeatAlreadyReservedException();
                 } else {
                     break;
@@ -41,7 +43,10 @@ public class SeatController {
             }
         }
         seatLayout.available_seats.get(count-1).setAvailable(false);
-        return seatLayout.available_seats.get(count - 1);
+        Seat seat = seatLayout.available_seats.get(count-1);
+        UUID uuid = UUID.randomUUID();
+        String uuidString = uuid.toString();
+        return new ResponseEntity<>(Map.of("token", uuidString, "ticket", seat), HttpStatus.OK);
 
     }
 }
