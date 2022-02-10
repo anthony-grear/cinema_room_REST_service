@@ -14,4 +14,9 @@ public class CinemaExceptionController {
     public ResponseEntity<Object> exception(SeatOutOfBoundsException exception) {
         return new ResponseEntity<>(Map.of("error", "The number of a row or a column is out of bounds!"), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = SeatAlreadyReservedException.class)
+    public ResponseEntity<Object> exception(SeatAlreadyReservedException exception) {
+        return new ResponseEntity<>(Map.of("error", "The ticket has been already purchased!"), HttpStatus.BAD_REQUEST);
+    }
 }

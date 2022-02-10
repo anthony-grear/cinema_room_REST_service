@@ -29,12 +29,18 @@ public class SeatController {
         if (row > 9 || row < 1 || column > 9 || column < 1) {
             throw new SeatOutOfBoundsException();
         }
+
         for (Seat seat : seatLayout.available_seats) {
             count++;
             if (seat.getRow()==row && seat.getColumn()==column) {
-                break;
+                if (seat.getAvailable() == false) {
+                    throw new SeatAlreadyReservedException();
+                } else {
+                    break;
+                }
             }
         }
+        seatLayout.available_seats.get(count-1).setAvailable(false);
         return seatLayout.available_seats.get(count - 1);
 
     }
