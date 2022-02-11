@@ -78,7 +78,10 @@ public class SeatController {
     }
 
     @PostMapping("/stats")
-    public Statistics getStatistics(@RequestParam("password") String password) {
+    public Statistics getStatistics(@RequestParam(required = false) String password) {
+        if (password == null || password.length()==0) {
+            throw new MissingPasswordException();
+        }
         if (!password.equals("super_secret")) {
             throw new MissingPasswordException();
         }

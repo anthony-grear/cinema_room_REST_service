@@ -48,7 +48,7 @@ public class Statistics {
     }
 
     static void decreaseCurrent_income (int amount) {
-        current_income += amount;
+        current_income -= amount;
     }
 
     static void decrementNumber_of_available_seats() {
